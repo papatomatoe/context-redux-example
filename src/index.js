@@ -1,17 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import { ContextProvider } from "./context/money";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const initialState = {
+	money: 999,
+};
+
+const reducer = (state = initialState, action) => {
+	switch (action.type) {
+		case "addOne":
+			return { ...state, money: state.money + 1 };
+		case "removeOne":
+			return { ...state, money: state.money - 1 };
+		case "addMoney":
+			return { ...state, money: state.money + action.payload };
+		default:
+			return state;
+	}
+};
+
+const store = createStore(reducer);
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+	<ContextProvider>
+		<Provider store={store}>
+			<App />
+		</Provider>
+	</ContextProvider>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
