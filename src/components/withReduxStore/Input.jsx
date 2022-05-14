@@ -2,13 +2,14 @@ import React from "react";
 import Test from "./Test";
 
 import { useDispatch } from "react-redux";
+import { addMoney } from "../../actions/moneyActions";
 
 const Input = () => {
 	const dispatch = useDispatch();
 	const [value, setValue] = React.useState(0);
 
 	const handler = () => {
-		dispatch({ type: "addMoney", payload: Number(value) });
+		dispatch(addMoney(Number(value)));
 		setValue(0);
 	};
 
